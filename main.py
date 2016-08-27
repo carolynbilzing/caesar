@@ -15,6 +15,8 @@
 # limitations under the License.
 #
 import webapp2
+from caesar import encrypt
+
 
 form="""
 <!DOCTYPE html>
@@ -57,10 +59,12 @@ form="""
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         self.response.write(form)
+
     def post(self):
-    	new_text= self.response.get(form)
-    	new_text_element = "<strong>" + new_text "</strong>"
-    	self.response.write(response)
+    	rot = self.request.get("rot")
+    	text = self.request.get("text")
+    	encrypted = encrypt(text,int(rot))
+    	self.response.write(encrypted)
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
